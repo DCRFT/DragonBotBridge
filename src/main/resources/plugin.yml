@@ -1,0 +1,15 @@
+name: DragonBotBridge
+version: 4.0.10
+main: pl.dcbot.DragonBotBridge
+api-version: 1.19
+commands:
+  zglos:
+    description: Zglos gracza lub problem
+  discord:
+    description: Zglos gracza lub problem
+  dclink:
+    description: Zglos gracza lub problem
+  przeniesrange:
+    description: Przenies range
+  anulujprzenoszenie:
+    description: anuluje
