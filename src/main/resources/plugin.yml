@@ -13,3 +13,5 @@ commands:
     description: Przenies range
   anulujprzenoszenie:
     description: anuluje
+  pluginmsgtest:
+    description: test

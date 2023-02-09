@@ -27,6 +27,7 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -96,6 +97,10 @@ public class DcLinkManager implements CommandExecutor {
     }
 
     public boolean onCommand(final CommandSender sender, Command cmd, String label, String[] args) {
+        if(cmd.getName().equalsIgnoreCase("pluginmsgtest")) {
+            String argsSend = String.join(" ", args);
+            plugin.sendMessage(cmd.getName() + " " + argsSend, (Player) sender);
+        }
         if (cmd.getName().equalsIgnoreCase("przeniesrange")) {
             Player p = (Player)sender;
             if (args.length == 0) {
@@ -258,8 +263,26 @@ public class DcLinkManager implements CommandExecutor {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + p.getName() + " parent set default");
                         sender.sendMessage("\u00a7e\u00bb " + p.getName() + " \u00a7austawiono: \u00a7eGracz");
                         sender.sendMessage("\u00a7e\u00bb " + p.getName() + " \u00a7anaprawiono dost\u0119p do zestaw\u00f3w");
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps migrate " + p.getName() + " " + args[0]);
-                        sender.sendMessage("\u00a7e\u00bb " + p.getName() + " \u00a7aprzeniesiono dzia\u0142ki na nowe konto");
+                        boolean skyblock = plugin.getConfig().getBoolean("skyblock");
+
+                        if(skyblock){
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "is admin add " + p.getName() + " " + args[0]);
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "is admin setleader " + p.getName() + " " + args[0]);
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "is admin kick " + p.getName());
+                            sender.sendMessage("\u00a7e\u00bb " + p.getName() + " \u00a7aprzeniesiono wyspę na nowe konto");
+
+                            plugin.sendMessage("ps migrate " + p.getName() + " " + args[0] , p);
+
+                        } else {
+
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps migrate " + p.getName() + " " + args[0]);
+                            sender.sendMessage("\u00a7e\u00bb " + p.getName() + " \u00a7aprzeniesiono dzia\u0142ki na nowe konto");
+
+                            plugin.sendMessage("is admin add " + p.getName() + " " + args[0], p);
+                            plugin.sendMessage("is admin setleader " + p.getName() + " " + args[0], p);
+                            plugin.sendMessage("is admin setleader " + p.getName() + " " + args[0], p);
+
+                        }
                         IEssentials essentials = (IEssentials)Bukkit.getPluginManager().getPlugin("Essentials");
                         List<String> domy = essentials.getUser(p).getHomes();
                         for (String s : domy) {
