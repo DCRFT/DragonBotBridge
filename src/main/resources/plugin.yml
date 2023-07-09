@@ -1,7 +1,7 @@
 name: DragonBotBridge
-version: 4.0.10
+version: ${project.version}
 main: pl.dcbot.DragonBotBridge
-api-version: 1.19
+api-version: 1.20
 commands:
   zglos:
     description: Zglos gracza lub problem

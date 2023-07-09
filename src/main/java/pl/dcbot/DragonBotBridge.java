@@ -3,8 +3,6 @@ package pl.dcbot;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +15,6 @@ import org.javacord.api.DiscordApiBuilder;
 import pl.dcbot.Managers.DatabaseManager;
 import pl.dcbot.Managers.DcLinkManager;
 
-import java.io.*;
 import java.util.concurrent.CompletableFuture;
 
 public class
@@ -46,7 +43,7 @@ implements Listener, PluginMessageListener {
         runnable.runTaskAsynchronously(this);
         instance = this;
         ((CompletableFuture)new DiscordApiBuilder().setToken(this.getConfig().getString("token")).setAllNonPrivilegedIntents().login().thenAccept(this::onConnectToDiscord)).exceptionally(error -> {
-            this.getLogger().warning("\u00a7cNie mo\u017cna zalogowa\u0107 si\u0119 do Discord! Wy\u0142aczanie...");
+            this.getLogger().warning("§cNie można zalogować się do Discord! Wyłaczanie...");
             this.getPluginLoader().disablePlugin(this);
             return null;
         });
@@ -75,7 +72,7 @@ implements Listener, PluginMessageListener {
 
     private void onConnectToDiscord(DiscordApi api) {
         this.api = api;
-        this.getLogger().info("\u00a7aPo\u0142\u0105czono z Discordem jako " + api.getYourself().getDiscriminatedName());
+        this.getLogger().info("§aPołączono z Discordem jako " + api.getYourself().getDiscriminatedName());
     }
 
     public DiscordApi getApi() {
@@ -85,7 +82,7 @@ implements Listener, PluginMessageListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (this.getConfig().getString(e.getPlayer().getName() + ".prangi") != null) {
-            e.getPlayer().sendMessage("\u00a7e\u00a7lDragon\u00a76\u00a7lCraft \u00a7e\u00bb \u00a7cHej! Jeste\u015b w trakcie przenoszenia rangi mi\u0119dzy kontami \u00a7e" + e.getPlayer().getName() + " \u00a7ca \u00a7e" + this.getConfig().getString(e.getPlayer().getName() + ".prangi") + "\u00a7c! Koniecznie doko\u0144cz przenoszenie u\u017cywaj\u0105c \u00a7e/przeniesrange nowynick zako\u0144cz \u00a7cze \u00a7estarego konta\u00a7c, aby nie zosta\u0107 \u00a7ezbanowanym!");
+            e.getPlayer().sendMessage("§e§lDragon§6§lCraft §e» §cHej! Jesteś w trakcie przenoszenia rangi między kontami §e" + e.getPlayer().getName() + " §ca §e" + this.getConfig().getString(e.getPlayer().getName() + ".prangi") + "§c! Koniecznie dokończ przenoszenie używając §e/przeniesrange nowynick zakończ §cze §estarego konta§c, aby nie zostać §ezbanowanym!");
         }
     }
     public void sendMessage(String message, Player p) {
